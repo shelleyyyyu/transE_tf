@@ -7,7 +7,7 @@ import datetime
 import ctypes
 
 ll = ctypes.cdll.LoadLibrary   
-lib = ll("./lib/init_debug.so")
+lib = ll("./lib/init.so")
 test_lib = ll("./lib/test.so")
 
 class Config(object):
