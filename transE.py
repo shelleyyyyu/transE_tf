@@ -7,8 +7,8 @@ import datetime
 import ctypes
 
 ll = ctypes.cdll.LoadLibrary   
-lib = ll("./init.so")
-test_lib = ll("./test.so")
+lib = ll("./lib/init_debug.so")
+test_lib = ll("./lib/test.so")
 
 class Config(object):
 
@@ -18,8 +18,8 @@ class Config(object):
                 test_lib.setInPath(path, len(path))
 		lib.setBernFlag(0)
 		self.learning_rate = 0.001
-		self.testFlag = False
-		self.loadFromData = False
+		self.testFlag = True
+		self.loadFromData = True
 		self.L1_flag = True
 		self.hidden_size = 100
 		self.nbatches = 100

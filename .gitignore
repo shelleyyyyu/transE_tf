@@ -1,7 +1,7 @@
 data
 models
 test.so
-init_debug.so
+lib/init_debug.so
 init.so
 init_debug.cpp
 test_debug.cpp
