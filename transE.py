@@ -18,8 +18,8 @@ class Config(object):
                 test_lib.setInPath(path, len(path))
 		lib.setBernFlag(0)
 		self.learning_rate = 0.001
-		self.testFlag = True
-		self.loadFromData = True
+		self.testFlag = False
+		self.loadFromData = False
 		self.L1_flag = True
 		self.hidden_size = 100
 		self.nbatches = 100
@@ -149,8 +149,7 @@ def main(_):
 						lib.getBatch(ph_addr, pt_addr, pr_addr, nh_addr, nt_addr, nr_addr, config.batch_size)
 						res += train_step(ph, pt, pr, nh, nt, nr)
 						current_step = tf.train.global_step(sess, global_step)
-					print(times)
-					print(res)
+					print(times, res)
 				saver.save(sess, './models/transE_model.vec')
 			else:
 				total = test_lib.getTestTotal()

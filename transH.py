@@ -7,8 +7,8 @@ import datetime
 import ctypes
 
 ll = ctypes.cdll.LoadLibrary   
-lib = ll("./init.so")
-test_lib = ll("./test.so")
+lib = ll("./lib/init.so")
+test_lib = ll("./lib/test.so")
 
 class Config(object):
 
@@ -111,7 +111,7 @@ def main(_):
 			saver = tf.train.Saver()
 			sess.run(tf.initialize_all_variables())
 			if (config.loadFromData):
-				saver.restore(sess, 'model.vec')
+				saver.restore(sess, './models/transH_model.vec')
 
 			def train_step(pos_h_batch, pos_t_batch, pos_r_batch, neg_h_batch, neg_t_batch, neg_r_batch):
 				feed_dict = {
@@ -156,7 +156,7 @@ def main(_):
 			test_lib.testHead.argtypes = [ctypes.c_void_p]
 			test_lib.testTail.argtypes = [ctypes.c_void_p]
 
-			print "hx"
+			#print("hx")
 
 			if not config.testFlag:
 				for times in range(config.trainTimes):
@@ -165,9 +165,8 @@ def main(_):
 						lib.getBatch(ph_addr, pt_addr, pr_addr, nh_addr, nt_addr, nr_addr, config.batch_size)
 						res += train_step(ph, pt, pr, nh, nt, nr)
 						current_step = tf.train.global_step(sess, global_step)
-					print times
-					print res
-				saver.save(sess, 'model.vec')
+					print(times, res)
+				saver.save(sess, './models/transH_model.vec')
 			else:
 				total = test_lib.getTestTotal()
 				for times in range(total):
@@ -178,7 +177,7 @@ def main(_):
 					test_lib.getTailBatch(ph_addr, pt_addr, pr_addr)
 					res = test_step(ph, pt, pr)
 					test_lib.testTail(res.__array_interface__['data'][0])
-					print times
+					print(times)
 					if (times % 50 == 0):
 						test_lib.test()
 				test_lib.test()
